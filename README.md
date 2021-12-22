@@ -1,6 +1,6 @@
 # Luwjistik - Technical Test
 
-This project was deployed by vercell - [Website]().
+This project was deployed by vercell - [Website](https://luwjistik.vercel.app/).
 
 ## Installation
 
@@ -16,4 +16,6 @@ The app will automatically opened in your browser.
 
 ## Features
 
-*
+* Login page for registered user
+* Dashboard contain list of orders information
+* User can create order

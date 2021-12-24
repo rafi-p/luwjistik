@@ -4,7 +4,8 @@ import { LocalStorage } from '../../helpers';
 const initialState = {
   data: [],
   loadingList: false,
-  token: ''
+  token: '',
+  email: ''
 };
 
 const setOrderReq = state => {
@@ -23,12 +24,22 @@ const setOrderSearch = (state, payload) => {
   };
 };
 
+const setToken = (state, payload) => {
+  return {
+    ...state,
+    token: payload.data.session,
+    email: payload.data.email
+  };
+};
+
 const OrderReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_ORDERS_REQUEST:
       return setOrderReq(state);
     case actionTypes.GET_ORDERS_SUCCESS:
       return setOrderSearch(state, action.payload);
+    case actionTypes.LOGIN_SUCCESS:
+      return setToken(state, action.payload);
     default:
       return state;
   }

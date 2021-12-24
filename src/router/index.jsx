@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import PrivateRoute from './private';
+import { LocalStorage } from '../helpers';
 import {
   Dashboard,
   Login
@@ -22,6 +23,7 @@ let privateRoutes =  [
 ];
 
 const Router = props => {
+  const token = LocalStorage.getToken();
 
   return (
     // <ConnectedRouter history={ props.history }>
@@ -31,7 +33,20 @@ const Router = props => {
           <Route
             key={ route.path }
             exact path={ route.path }
-            component={ route.component }
+            render={ props => {
+              return !token
+                ? (
+                  <route.component
+                    { ...props }
+                  />
+              ) : (
+                <Redirect
+                  to={ {
+                    pathname: '/',
+                  } }
+                />
+              );
+            } }
           />
         )
       }

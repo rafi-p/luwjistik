@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import * as ordersServices from '../../services/order';
+import { LocalStorage } from '../../helpers';
 
 import actionTypes from './actionTypes';
 
@@ -9,6 +10,11 @@ export const getOrdersRequest = () => ({
 
 export const getOrdersSuccess = payload => ({
   type: actionTypes.GET_ORDERS_SUCCESS,
+  payload: { ...payload },
+});
+
+export const loginSuccess = payload => ({
+  type: actionTypes.LOGIN_SUCCESS,
   payload: { ...payload },
 });
 
@@ -23,6 +29,21 @@ export const getOrders = (dispatch, getState) => (params, body) => {
       resolve(dispatch(getOrdersSuccess({ data: data })));
     } else {
       reject(stat_msg);
+    }
+  });
+};
+
+export const login = (dispatch, getState) => (params, body) => {
+  return new Promise(async(resolve, reject) => {
+    const apiFetch = await ordersServices.login(params, body);
+
+    const { data, message, status } = apiFetch;
+
+    if (status === 200) {
+      await LocalStorage.setToken(data.session);
+      resolve(dispatch(loginSuccess({ data: data })));
+    } else {
+      reject(message);
     }
   });
 };

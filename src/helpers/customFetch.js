@@ -3,15 +3,22 @@
 import { axios } from '../constant/index';
 
 const customFetch = async(url, method, data) => {
-
   try {
-    let response = null;
-
+    const config = {
+      method: 'get',
+      url,
+      headers: { 'Content-Type': 'application/json' }
+    };
     if (method === 'POST') {
-      response = await axios.post(url, JSON.stringify(data));
-    } else {
-      response = await axios.get(url);
+      config['method'] = 'post';
+      config['data'] = JSON.stringify(data);
     }
+    const response = await axios({
+      method: 'post',
+      data: JSON.stringify(data),
+      url,
+      headers: { 'Content-Type': 'application/json' }
+    });
 
     switch (response.status) {
       case 500:

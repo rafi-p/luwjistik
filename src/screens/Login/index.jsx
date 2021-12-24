@@ -19,6 +19,7 @@ import {
   isBrowser,
   isMobile
 } from 'react-device-detect';
+import * as orderActions from '../../store/order/actions';
 
 const Login = props => {
   const dispatch = useDispatch();
@@ -27,16 +28,45 @@ const Login = props => {
   const [passInput, setPassInput] = useState('');
   const [errPass, setErrPass] = useState('');
   const [showPass, setShowPass] = useState(false);
+  const [loadingLogin, setLoadingLogin] = useState(false);
+  const loginAction = dispatch(orderActions.login);
 
   const submit = () => {
-    if (!validation.validateEmail(loginInput)) {
-      setErrEmail('Please use the proper email');
+
+    let payload = {
+      email: loginInput,
+      password: passInput
+    };
+
+    if (validation.validateEmail(loginInput) && passInput) {
+      setLoadingLogin(true);
+      loginAction({}, payload)
+      .then(res => {
+        props.history.push('/');
+      })
+      .catch(err => {
+
+      })
+      .finally(() => {
+        setLoadingLogin(false);
+      });
+    }
+
+
+    if (!loginInput) {
+      setErrEmail('Please fill the email');
+    } else if (!validation.validateEmail(loginInput)) {
+      setErrEmail('Please use the proper email address');
+    }
+    if (!passInput) {
+      setErrPass('Please fill the password');
     }
   };
 
   useEffect(() => {
     setErrEmail('');
-  }, [loginInput]);
+    setErrPass('');
+  }, [loginInput, passInput]);
 
   return (
     <Container>

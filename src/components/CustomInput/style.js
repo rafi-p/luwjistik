@@ -6,7 +6,7 @@ const TextInput = styled.div`
   height: ${props => props.height ? props.height : '40px'};
   width: ${props => props.width ? props.width : '500px'};
   border-radius: 10px;
-  background: ${ props => (props.bg ? props.bg : Colors.white.pureWhite)};
+  background: ${ props => (props.bg ? props.bg : Colors.white.default)};
   display: flex;
   align-items: center;
   border: ${props => (

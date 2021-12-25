@@ -1,24 +1,23 @@
 /* eslint-disable no-undef */
 
 import { axios } from '../constant/index';
+import { LocalStorage } from '../helpers/index';
 
 const customFetch = async(url, method, data) => {
   try {
     const config = {
       method: 'get',
       url,
-      headers: { 'Content-Type': 'application/json' }
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': LocalStorage.getToken() ?? ''
+      }
     };
     if (method === 'POST') {
       config['method'] = 'post';
       config['data'] = JSON.stringify(data);
     }
-    const response = await axios({
-      method: 'post',
-      data: JSON.stringify(data),
-      url,
-      headers: { 'Content-Type': 'application/json' }
-    });
+    const response = await axios(config);
 
     switch (response.status) {
       case 500:

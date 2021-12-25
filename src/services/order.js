@@ -8,10 +8,27 @@ export const getOrders = async(params, data) => {
   };
 
   try {
-    const response = await customFetch(`${Endpoints.url}${Endpoints.param.planet}`, 'GET', data, false);
+    const response = await customFetch(`${Endpoints.param.order}`, 'GET', data, false);
 
     if (response.data) {
-      response.data = setOrder(response.data);
+      response.data = setOrder(response.data?.data);
+    } else {
+      response.data = [];
+    }
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addOrder = async(params, data) => {
+
+  try {
+
+    const response = await customFetch(`${Endpoints.param.order}`, 'POST', data, false);
+
+    if (response.data) {
+      response.data = response.data?.data;
     } else {
       response.data = {};
     }

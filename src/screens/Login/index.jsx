@@ -45,7 +45,7 @@ const Login = props => {
         props.history.push('/');
       })
       .catch(err => {
-
+        console.log({ err });
       })
       .finally(() => {
         setLoadingLogin(false);

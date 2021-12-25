@@ -23,7 +23,25 @@ const CustomInput = props => {
   };
 
   const onChange = e => {
-    props.setKeyword(e.target.value);
+    let re = /^[\d]+$/;
+    const valid = props.validNumber || props.validAlpha;
+
+    if (props.validNumber) {
+      re = /^[0-9]+$/i;
+    }
+    if (props.validAlpha) {
+      re = /^[a-zA-Z ]*$/i;
+    }
+
+    if ((e.target.value === '' || re.test(e.target.value))) {
+      props.setKeyword(e.target.value);
+    }
+
+    if (!valid) {
+      props.setKeyword(e.target.value);
+    }
+
+    // props.setKeyword(e.target.value);
   };
 
   return (

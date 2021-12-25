@@ -1,5 +1,5 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import React, { useState, useEffect, useRef } from 'react';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import Router from './router/index';
 import { history, store } from './store/index';
@@ -10,9 +10,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 function App() {
-  const token = LocalStorage.getToken();
+  const dispatch = useDispatch();
+  const tokenRedux = useSelector(state => state.order.token);
+  const token = LocalStorage.getToken() || tokenRedux ? LocalStorage.getToken() : LocalStorage.getToken();
   return (
-    <Provider store={ store }>
+    // <Provider store={ store }>
       <BrowserRouter>
         <div
         >
@@ -24,7 +26,7 @@ function App() {
           <ToastContainer/>
         </div>
       </BrowserRouter>
-    </Provider>
+   // </Provider>
   );
 }
 

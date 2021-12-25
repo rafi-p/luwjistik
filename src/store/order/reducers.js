@@ -4,7 +4,8 @@ import { LocalStorage } from '../../helpers';
 const initialState = {
   data: [],
   loadingList: false,
-  token: '',
+  loadingAdd: false,
+  token: LocalStorage.getToken() ?? '',
   email: ''
 };
 
@@ -24,11 +25,35 @@ const setOrderSearch = (state, payload) => {
   };
 };
 
+const setAddOrderReq = state => {
+
+  return {
+    ...state,
+    loadingAdd: true
+  };
+};
+
+const setAddOrderSuccess = state => {
+
+  return {
+    ...state,
+    loadingAdd: false
+  };
+};
+
 const setToken = (state, payload) => {
   return {
     ...state,
     token: payload.data.session,
     email: payload.data.email
+  };
+};
+
+const setCleanToken = state => {
+  return {
+    ...state,
+    token: '',
+    email: ''
   };
 };
 
@@ -38,8 +63,14 @@ const OrderReducer = (state = initialState, action) => {
       return setOrderReq(state);
     case actionTypes.GET_ORDERS_SUCCESS:
       return setOrderSearch(state, action.payload);
+    case actionTypes.ADD_ORDER_REQUEST:
+      return setAddOrderReq(state, action.payload);
+    case actionTypes.ADD_ORDER_SUCCESS:
+      return setAddOrderSuccess(state, action.payload);
     case actionTypes.LOGIN_SUCCESS:
       return setToken(state, action.payload);
+    case actionTypes.LOGOUT:
+      return setCleanToken(state);
     default:
       return state;
   }

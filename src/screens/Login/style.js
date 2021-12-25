@@ -43,6 +43,16 @@ const Container = styled.div`
       &:hover {
         background: ${Colors.black.default};
       }
+      &.disabled {
+        opacity: .5 !important;
+        cursor: not-allowed !important;
+        pointer-events: none
+
+        /* &:hover {
+            opacity: .5;
+        } */
+
+      }
     }
 `;
 

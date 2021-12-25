@@ -80,10 +80,11 @@ const Container = styled.div`
           }
 
           td {
-              padding: 10px 10px;
+              padding: 15px 10px;
               border-bottom: 1px solid $grayLight;
               font-size: 12px;
               vertical-align: middle;
+              border-bottom: 1px solid ${Colors.grey.lineGrey};
           }
 
           th {
@@ -170,6 +171,7 @@ const ModalInfo = styled.div`
         }
         @media ${Sizes.sm} {
           grid-gap: 10px 20px;
+          grid-template-columns: auto;
         }
 
         .left, .right {

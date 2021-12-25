@@ -28,8 +28,8 @@ const Login = props => {
   const [passInput, setPassInput] = useState('');
   const [errPass, setErrPass] = useState('');
   const [showPass, setShowPass] = useState(false);
-  const [loadingLogin, setLoadingLogin] = useState(false);
   const loginAction = dispatch(orderActions.login);
+  const loadingLogin = useSelector(state => state.order.loadingLogin);
 
   const submit = () => {
 
@@ -39,7 +39,6 @@ const Login = props => {
     };
 
     if (validation.validateEmail(loginInput) && passInput) {
-      setLoadingLogin(true);
       loginAction({}, payload)
       .then(res => {
         props.history.push('/');
@@ -48,7 +47,6 @@ const Login = props => {
         console.log({ err });
       })
       .finally(() => {
-        setLoadingLogin(false);
       });
     }
 
@@ -95,12 +93,18 @@ const Login = props => {
           onKeyDown={ submit }
         />
         <div
-          className='btn-login'
+          className={ `btn-login ${loadingLogin ? 'disabled' : ''}` }
           onClick={ submit }
         >
           <Text
             styling={ FontStyles.heading3 }
-            text='Login'
+            text={
+              loadingLogin
+              ?
+              'Loading'
+              :
+              'Login'
+            }
             color={ Colors.white.default }
           />
         </div>

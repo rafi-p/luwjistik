@@ -5,6 +5,7 @@ const initialState = {
   data: [],
   loadingList: false,
   loadingAdd: false,
+  loadingLogin: false,
   token: LocalStorage.getToken() ?? '',
   email: ''
 };
@@ -40,12 +41,20 @@ const setAddOrderSuccess = state => {
     loadingAdd: false
   };
 };
+const setLoginReq = state => {
+
+  return {
+    ...state,
+    loadingLogin: true
+  };
+};
 
 const setToken = (state, payload) => {
   return {
     ...state,
     token: payload.data.session,
-    email: payload.data.email
+    email: payload.data.email,
+    loadingLogin: false
   };
 };
 
@@ -67,6 +76,8 @@ const OrderReducer = (state = initialState, action) => {
       return setAddOrderReq(state, action.payload);
     case actionTypes.ADD_ORDER_SUCCESS:
       return setAddOrderSuccess(state, action.payload);
+    case actionTypes.LOGIN_REQUEST:
+      return setLoginReq(state, action.payload);
     case actionTypes.LOGIN_SUCCESS:
       return setToken(state, action.payload);
     case actionTypes.LOGOUT:

@@ -22,6 +22,9 @@ export const addOrderSuccess = payload => ({
   payload: { ...payload },
 });
 
+export const loginRequest = () => ({
+  type: actionTypes.LOGIN_REQUEST,
+});
 export const loginSuccess = payload => ({
   type: actionTypes.LOGIN_SUCCESS,
   payload: { ...payload },
@@ -63,6 +66,7 @@ export const addOrder = (dispatch, getState) => (params, body) => {
 
 export const login = (dispatch, getState) => (params, body) => {
   return new Promise(async(resolve, reject) => {
+    dispatch(loginRequest());
     const apiFetch = await ordersServices.login(params, body);
 
     const { data, message, status } = apiFetch;

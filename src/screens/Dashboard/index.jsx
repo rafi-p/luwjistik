@@ -64,6 +64,8 @@ const Dashboard = props => {
   const [errPickUpProvince, setErrPickUpProvince] = useState('');
   // end modal
   const dataOrders = useSelector(state => state.order.data);
+  const loadingList = useSelector(state => state.order.loadingList);
+  const loadingAdd = useSelector(state => state.order.loadingAdd);
   const getOrders = dispatch(orderActions.getOrders);
   const addOrder = dispatch(orderActions.addOrder);
 
@@ -120,7 +122,14 @@ const Dashboard = props => {
     };
 
     if (disabled()) {
-      addOrder({}, payload);
+      addOrder({}, payload)
+      .then(res => {
+        setOpenModal(false);
+        getOrders();
+      })
+      .catch(err => {
+
+      });
     }
 
     if (!consigneeNumber) {
@@ -257,6 +266,7 @@ const Dashboard = props => {
           </thead>
           <tbody>
             {
+              !loadingList &&
               dataOrders &&
               dataOrders.map((el, i) => {
                 return (
@@ -281,6 +291,13 @@ const Dashboard = props => {
                   </tr>
                 );
               })
+            }
+            {
+              loadingList &&
+              <tr >
+                <td colSpan='14'>Loading</td>
+
+              </tr>
             }
           </tbody>
         </table>
@@ -521,12 +538,16 @@ const Dashboard = props => {
             </div>
           </div>
           <div
-            className={ `btn-sub ${!disabled() ? 'disabled' : ''}` }
+            className={ `btn-sub ${!disabled() || loadingAdd ? 'disabled' : ''}` }
             onClick={ submit }
           >
             <Text
               styling={ FontStyles.mediumM }
               text={
+                loadingAdd
+                ?
+                'Loading'
+                :
                 'Submit'
               }
               color={ Colors.white.default }
